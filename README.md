@@ -10,18 +10,21 @@ Name: Yassine DEHHANI
 #### Exporting the environment variable
 On Linux/MacOS :
 ```bash
-- export PING_LISTEN_PORT=7000
+export PING_LISTEN_PORT=7000
 ```
 On Windows :
 ```bash
-- set PING_LISTEN_PORT=7000
+set PING_LISTEN_PORT=7000
 ```
 
 #### Compiling the Typescript file into a JS file
-- npx tsc
+```bash
+npx tsc
+```
 #### Building and executing the project
-- node build/index.js  (for executing the script)
-
+```bash
+node build/index.js  (for executing the script)
+```
 ## Tests
 Now use the curl command in order to check if the execise is working correctly:
 ### Working case

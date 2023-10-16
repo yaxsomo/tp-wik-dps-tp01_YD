@@ -23,7 +23,7 @@ npx tsc
 ```
 #### Building and executing the project
 ```bash
-node build/index.js  (for executing the script)
+node build/index.js
 ```
 ## Tests
 Now use the curl command in order to check if the execise is working correctly:

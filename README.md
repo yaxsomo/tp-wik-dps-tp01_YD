@@ -1,20 +1,25 @@
 # tp-wik-dps-tp01_YD
 TP 01 Devops
 
-Name: Yassine DEHHANI
+This mini-project consists in creating an HTTP server with only a possible route : 
+
+- '/ping' will send an 'HTTP/1.1 200 OK' Response
+- Every other route is going to send an 'HTTP/1.1 404 Not Found' Response
+
+Once the project is running, we can access it with localhost, on a specified port via the PING_LISTEN_PORT environment variable
 
 
-## How to execute (exemple on port 7000) 
+## How to execute (exemple on port 6969) 
 ### On the terminal, use the following commands in order :
 
 #### Exporting the environment variable
 On Linux/MacOS :
 ```bash
-export PING_LISTEN_PORT=7000
+export PING_LISTEN_PORT=6969
 ```
 On Windows :
 ```bash
-set PING_LISTEN_PORT=7000
+set PING_LISTEN_PORT=6969
 ```
 
 #### Compiling the Typescript file into a JS file

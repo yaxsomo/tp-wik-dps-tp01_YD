@@ -81,7 +81,7 @@ TP 02 Devops
 For this TP, we will have to put out project into a Docker container.
 To do so, we created a Dockerfile in which we specified all the actions needed in order to execute the project correctly (See Dockerfile for reference)
 
-## How to build docker image (exemple on port 6969) 
+## How to build docker image 
 To build the docker image from the Dockerfile, we have to use the following command :
 ```bash
 docker build -t [DOCKER_CONTAINER_NAME] .
@@ -89,7 +89,7 @@ docker build -t [DOCKER_CONTAINER_NAME] .
 ###### Replace the DOCKER_CONTAINER_NAME with the choosen container name
 
 
-## Run Docker container
+## Run Docker container (exemple on port 6969)
 In order to run the built Docker container, we will use this command :
 ```bash
 docker run -it --rm -p [pc_port:docker_port] -e PING_LISTEN_PORT=[PORT] [DOCKER_CONTAINER_NAME]
@@ -108,9 +108,9 @@ docker run -it --rm -p 8080:6969 -e PING_LISTEN_PORT=6969 test-node
 In order to verify the correct execution of the container, we will use again the curl command to check for HTTP header reception.
 
 #### ATTENTION
-The curl port have to be the forwarded one (pc_port), otherwise you will receive a 404 response
+##### The curl port have to be the forwarded one (pc_port), otherwise you will receive a 404 response
 
-sudo curl http://localhost:8080/ping -v
+#### command -> curl http://localhost:8080/ping -v
 
 ```bash
 *   Trying 127.0.0.1:8080...

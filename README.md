@@ -130,3 +130,48 @@ In order to verify the correct execution of the container, we will use again the
 * Connection #0 to host localhost left intact
 {"host":"localhost:8080","user-agent":"curl/7.88.1","accept":"*/*"}%  
 ```
+## Separate build from execution
+
+We created a second Dockerfile, in which we separated the build from the execution (see Dockerfile2 for reference)
+
+### Building the Dockerfile2
+
+In order to build from a specific Dockerfile, we will use this command : 
+
+```bash
+sudo docker build -t [DOCKER_CONTAINER_NAME] -f [DOCKERFILE_NAME] .
+```
+
+Exemple of build command :
+
+```bash
+sudo docker build -t test-node -f Dockerfile.2 .
+```
+### Executing the container for Dockerfile2
+
+In order to execute this container, we will use the same command as before : 
+
+```bash
+docker run -it --rm -p 8080:6969 -e PING_LISTEN_PORT=6969 test-node
+```
+
+### Results with curl (again): 
+
+```bash
+*   Trying 127.0.0.1:8080...
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /ping HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.88.1
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Date: Mon, 23 Oct 2023 14:52:16 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Transfer-Encoding: chunked
+< 
+* Connection #0 to host localhost left intact
+{"host":"localhost:8080","user-agent":"curl/7.88.1","accept":"*/*"}%   
+```

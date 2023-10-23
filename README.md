@@ -175,3 +175,33 @@ docker run -it --rm -p 8080:6969 -e PING_LISTEN_PORT=6969 test-node
 * Connection #0 to host localhost left intact
 {"host":"localhost:8080","user-agent":"curl/7.88.1","accept":"*/*"}%   
 ```
+
+## Issues encountered
+
+If you're having this error while building : 
+
+```bash
+ => [internal] load build definition from Dockerfile2                                                                   0.0s
+ => => transferring dockerfile: 976B                                                                                    0.0s
+ => [internal] load .dockerignore                                                                                       0.0s
+ => => transferring context: 2B                                                                                         0.0s
+ => ERROR [internal] load metadata for docker.io/library/node:18                                                        0.4s
+------
+ > [internal] load metadata for docker.io/library/node:18:
+------
+Dockerfile2:25
+--------------------
+  23 |     
+  24 |     
+  25 | >>> FROM node:18
+  26 |     
+  27 |     WORKDIR /app
+--------------------
+ERROR: failed to solve: node:18: error getting credentials - err: exit status 1, out: ``
+```
+
+You can use this command first : 
+
+```bash
+docker pull node:18 
+```

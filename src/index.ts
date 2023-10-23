@@ -6,6 +6,8 @@ const envVar = process.env.PING_LISTEN_PORT;
 
 
 var http = require('http');
+console.log("Starting HTTP Server..")
+
 
 http.createServer(function (req: IncomingMessage, res : ServerResponse) {
 

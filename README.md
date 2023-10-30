@@ -308,6 +308,27 @@ tp-wik-dps-tp01_yd-proxy-1  | 192.168.65.1 - - [30/Oct/2023:09:34:38 +0000] "GET
 ```bash
 {"host":"myapp:8080","connection":"close","user-agent":"curl/7.88.1","accept":"*/*"}%  
 ```
+### Verifying the load balancing:
+In order to check if the load balancing is configured correctly, we can simply add a line on out typescript code :
+
+```bash
+console.log(os.hostname())
+```
+With this line, we will see on the terminal the hostname of each replica answering the request in a cyclic way :
+
+```bash
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: Configuration complete; ready for start up
+tp-wik-dps-tp01_yd-myapp-2  | a19ae1914525 # First replica
+tp-wik-dps-tp01_yd-proxy-1  | 192.168.65.1 - - [30/Oct/2023:10:22:28 +0000] "GET /ping HTTP/1.1" 200 95 "-" "curl/7.88.1"
+tp-wik-dps-tp01_yd-myapp-4  | 1c27970caef7 # Second replica
+tp-wik-dps-tp01_yd-proxy-1  | 192.168.65.1 - - [30/Oct/2023:10:22:35 +0000] "GET /ping HTTP/1.1" 200 95 "-" "curl/7.88.1"
+tp-wik-dps-tp01_yd-proxy-1  | 192.168.65.1 - - [30/Oct/2023:10:22:36 +0000] "GET /ping HTTP/1.1" 200 95 "-" "curl/7.88.1"
+tp-wik-dps-tp01_yd-myapp-3  | 2151345767b1 # Third replica
+tp-wik-dps-tp01_yd-myapp-1  | 761e01df1e12 # Fourth replica
+tp-wik-dps-tp01_yd-proxy-1  | 192.168.65.1 - - [30/Oct/2023:10:22:38 +0000] "GET /ping HTTP/1.1" 200 95 "-" "curl/7.88.1"
+tp-wik-dps-tp01_yd-myapp-2  | a19ae1914525 # First replica (again)
+tp-wik-dps-tp01_yd-proxy-1  | 192.168.65.1 - - [30/Oct/2023:10:22:39 +0000] "GET /ping HTTP/1.1" 200 95 "-" "curl/7.88.1"
+```
 
 ### Stopping the service:
 

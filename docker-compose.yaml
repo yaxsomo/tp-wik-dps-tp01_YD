@@ -1,0 +1,58 @@
+#Version de l'API Docker
+version: '3.8'
+
+#Declaration des services
+services:
+
+  #Nom du service (correspond au nom réseau)
+  myapp:
+    build:
+      #Chemin vers le projet a mettre dans un conteneur
+      context: ./
+      #Chemin vers le fichier Dockerfile
+      dockerfile: ./Dockerfile
+    
+    #Exposition des ports
+    expose:
+      - '8080'
+    
+    #Definition du nombre de repliques des conteneurs
+    deploy:
+      replicas: 4
+    
+    #Politique de redemarrage
+    restart: always
+    #Definition des variables d'environnement
+    environment:
+      - PING_LISTEN_PORT=8080
+    #Appel du/des réseaux mentionnées dans la section 'networks'
+    networks:
+      - front-network
+    #Appel du/des volumes mentionnées dans la section 'volumes'
+    #volumes:
+    #  - db_data:./path/to/db_data.db    
+  #Definition de la configuration proxy
+  proxy:
+    image: nginx:latest
+
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    
+    ports:
+      - 8080:80
+    
+    depends_on:
+      - myapp
+    
+    networks:
+      - front-network
+
+#Declaration des réseaux
+networks:
+  front-network:
+    
+
+#Declaration des volumes
+volumes:
+  db_data:
+

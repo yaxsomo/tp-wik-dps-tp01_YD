@@ -205,3 +205,120 @@ You can use this command first :
 ```bash
 docker pull node:18 
 ```
+
+# tp-wik-dps-tp03_YD
+TP 03 Devops
+
+For this TP, we will have to use Docker Compose.
+To do so, we created a docker-compose.yaml file in which we declared all the services, networks and volumes needed in order to execute the TP correctly (see docker-compose.yaml for reference).
+We will have a total of 4 replicas of the service in order to assure a high availability for the project
+
+
+### Configuration for this TP:
+
+For this TP, we will setup the YAML file to use NGINX service, so we can execute a curl command on the port 8080.
+
+#### Nginx.conf:
+
+This file is essential for the load balancing of requests towards the 4 replicas.
+Here's the content of the configuration file : 
+
+```yaml
+user nginx;
+events {
+  
+}
+http {
+  server {
+    listen 80;
+    location / { 
+      proxy_pass http://myapp:8080/;
+    }
+  }
+}
+```
+
+This configuration will let us connect to the API through the port 8080
+
+### Building and executing the project:
+
+In order to build and execute the project we will use the following command :
+
+```bash
+sudo docker compose up
+```
+
+In case you modified something on the project and you wanted to rebuild and launch the project, use the following command instead :
+
+```bash
+sudo docker compose up --build
+```
+
+### Executing Results (Docker Compose side):
+
+```bash
+[+] Building 0.0s (14/14) FINISHED                                                                 docker:desktop-linux
+ => [myapp internal] load build definition from Dockerfile                                                         0.0s
+ => => transferring dockerfile: 717B                                                                               0.0s
+ => [myapp internal] load .dockerignore                                                                            0.0s
+ => => transferring context: 2B                                                                                    0.0s
+ => [myapp internal] load metadata for docker.io/library/node:18                                                   0.0s
+ => [myapp 1/9] FROM docker.io/library/node:18                                                                     0.0s
+ => [myapp internal] load build context                                                                            0.0s
+ => => transferring context: 358B                                                                                  0.0s
+ => CACHED [myapp 2/9] WORKDIR /app                                                                                0.0s
+ => CACHED [myapp 3/9] COPY package*.json ./                                                                       0.0s
+ => CACHED [myapp 4/9] RUN npm install --production                                                                0.0s
+ => CACHED [myapp 5/9] RUN npm install typescript --save-dev                                                       0.0s
+ => CACHED [myapp 6/9] RUN npm install @types/node --save-dev                                                      0.0s
+ => CACHED [myapp 7/9] RUN npx tsc --init --rootDir src --outDir build --esModuleInterop --resolveJsonModule --li  0.0s
+ => CACHED [myapp 8/9] COPY src ./src                                                                              0.0s
+ => CACHED [myapp 9/9] RUN npx tsc                                                                                 0.0s
+ => [myapp] exporting to image                                                                                     0.0s
+ => => exporting layers                                                                                            0.0s
+ => => writing image sha256:5702f7d9a95944b3de7615a85ed92c1692a09a7aef164de58fe5d03dfe0e3f42                       0.0s
+ => => naming to docker.io/library/tp-wik-dps-tp01_yd-myapp                                                        0.0s
+[+] Running 5/5
+ ✔ Container tp-wik-dps-tp01_yd-myapp-4  Recreated                                                                 0.1s 
+ ✔ Container tp-wik-dps-tp01_yd-myapp-1  Recreated                                                                 0.1s 
+ ✔ Container tp-wik-dps-tp01_yd-myapp-2  Recreated                                                                 0.1s 
+ ✔ Container tp-wik-dps-tp01_yd-myapp-3  Recreated                                                                 0.1s 
+ ✔ Container tp-wik-dps-tp01_yd-proxy-1  Recreated                                                                 0.0s 
+Attaching to tp-wik-dps-tp01_yd-myapp-1, tp-wik-dps-tp01_yd-myapp-2, tp-wik-dps-tp01_yd-myapp-3, tp-wik-dps-tp01_yd-myapp-4, tp-wik-dps-tp01_yd-proxy-1
+tp-wik-dps-tp01_yd-myapp-2  | Starting HTTP Server..
+tp-wik-dps-tp01_yd-myapp-3  | Starting HTTP Server..
+tp-wik-dps-tp01_yd-myapp-1  | Starting HTTP Server..
+tp-wik-dps-tp01_yd-myapp-4  | Starting HTTP Server..
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+tp-wik-dps-tp01_yd-proxy-1  | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+tp-wik-dps-tp01_yd-proxy-1  | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+tp-wik-dps-tp01_yd-proxy-1  | /docker-entrypoint.sh: Configuration complete; ready for start up
+tp-wik-dps-tp01_yd-proxy-1  | 192.168.65.1 - - [30/Oct/2023:09:34:38 +0000] "GET /ping HTTP/1.1" 200 95 "-" "curl/7.88.1"
+```
+
+### Executing Results (Curl side):
+
+#### command -> curl http://localhost:8080/ping 
+
+```bash
+{"host":"myapp:8080","connection":"close","user-agent":"curl/7.88.1","accept":"*/*"}%  
+```
+
+### Stopping the service:
+
+In order to stop the service, you can simply use the "Ctrl+C" command.
+To delete the ressources created by the YAML file, use this command :
+
+```bash
+docker compose rm
+```
+
+
+
+
+

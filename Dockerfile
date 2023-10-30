@@ -1,5 +1,5 @@
 # Depuis Node
-FROM node:14-alpine
+FROM node:18
 
 # Set la workdir
 WORKDIR /app
